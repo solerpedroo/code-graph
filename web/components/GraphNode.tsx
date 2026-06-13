@@ -28,13 +28,21 @@ function GraphNodeImpl({ data, selected }: NodeProps) {
       }
       title={node.id}
     >
+      <span className="cg-node__accent" aria-hidden />
       <Handle type="target" position={Position.Top} className="cg-handle" />
-      <span className="cg-node__lang">{LANGUAGE_GLYPH[node.language]}</span>
-      <span className="cg-node__label">{node.label}</span>
-      <span className="cg-node__meta">
-        <span title="fan-in">↓{node.fanIn}</span>
-        <span title="fan-out">↑{node.fanOut}</span>
-      </span>
+      <div className="cg-node__row">
+        <span className="cg-node__lang">{LANGUAGE_GLYPH[node.language]}</span>
+        <div className="cg-node__text">
+          <span className="cg-node__label">{node.label}</span>
+          {node.folder !== "(root)" && (
+            <span className="cg-node__path">{node.folder}</span>
+          )}
+        </div>
+        <span className="cg-node__meta">
+          <span title="fan-in">↓{node.fanIn}</span>
+          <span title="fan-out">↑{node.fanOut}</span>
+        </span>
+      </div>
       <Handle type="source" position={Position.Bottom} className="cg-handle" />
     </div>
   );
