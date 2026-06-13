@@ -87,10 +87,13 @@ export function GraphExplorer({
   return (
     <div className="exp">
       <header className="exp__top">
-        <button className="exp__back" onClick={onBack}>
-          <span style={{ fontSize: 16 }}>&larr;</span>
-          <LogoMark size={20} />
+        <button type="button" className="exp__back" onClick={onBack}>
+          <BackIcon />
+          Voltar
         </button>
+        <div className="exp__brand" aria-hidden>
+          <LogoMark size={22} />
+        </div>
         <div className="exp__title">
           <span className="name">{result.meta.projectName}</span>
           <span className="src">{result.meta.inputSource}</span>
@@ -240,6 +243,20 @@ export function GraphExplorer({
         </div>
       </aside>
     </div>
+  );
+}
+
+function BackIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path
+        d="M10 3.5 5.5 8 10 12.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
