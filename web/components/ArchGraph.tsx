@@ -106,10 +106,10 @@ function FlowInner({
       selectionOnDrag={false}
     >
       <Background
-        variant={BackgroundVariant.Lines}
-        gap={32}
-        lineWidth={1}
-        color="rgba(255,255,255,0.04)"
+        variant={BackgroundVariant.Dots}
+        gap={28}
+        size={1}
+        color="rgba(255,255,255,0.045)"
       />
       <MiniMap
         pannable
