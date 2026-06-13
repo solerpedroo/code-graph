@@ -11,7 +11,7 @@ function CodeNodeImpl({ data, selected }: NodeProps) {
   if (selected) classes.push("cg-node--selected");
   if (dimmed) classes.push("cg-node--dimmed");
   if (highlight === "warning" || node.inCycle) classes.push("cg-node--warning");
-  if (highlight === "core") classes.push("cg-node--core");
+  else if (highlight === "core") classes.push("cg-node--core");
   if (highlight === "isolated") classes.push("cg-node--isolated");
 
   return (
@@ -27,9 +27,7 @@ function CodeNodeImpl({ data, selected }: NodeProps) {
       title={node.id}
     >
       <Handle type="target" position={Position.Top} className="cg-handle" />
-      <span className="cg-node__glyph" style={{ background: color }}>
-        {LANGUAGE_GLYPH[node.language]}
-      </span>
+      <span className="cg-node__lang">{LANGUAGE_GLYPH[node.language]}</span>
       <span className="cg-node__label">{node.label}</span>
       <span className="cg-node__meta">
         <span title="fan-in (quem depende deste)">&#8595;{node.fanIn}</span>
