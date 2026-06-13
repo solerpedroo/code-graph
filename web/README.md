@@ -7,7 +7,7 @@ sem upload) e explore o grafo de dependências.
 ## Stack
 
 - **Next.js (App Router)** — frontend + funções serverless
-- **react-force-graph-2d** — grafo de dependências em constelação (canvas)
+- **@xyflow/react + dagre** — diagrama hierárquico de dependências (estilo ferramenta de arquitetura)
 - **Groq** — insights de arquitetura por IA (com fallback heurístico)
 - Analisador portável multi-linguagem (TS/JS, Python, Go, Java, Kotlin, Rust,
   PHP, Ruby, C#, Swift, Dart, Scala, C/C++)
