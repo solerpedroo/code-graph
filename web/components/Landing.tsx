@@ -3,6 +3,7 @@
 import { LANGUAGE_LABELS } from "@/lib/theme";
 import { LogoMark } from "./Logo";
 import { RepoInput } from "./RepoInput";
+import { DeveloperCredit } from "./DeveloperCredit";
 
 const LANGS = [
   "typescript",
@@ -39,15 +40,19 @@ export function Landing(props: Props) {
           CodeGraph
         </div>
         <div className="nav__links">
-          <a href="#" onClick={(e) => e.preventDefault()}>
-            Como funciona
-          </a>
           <a
-            href="https://github.com"
+            href="https://github.com/solerpedroo"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             GitHub
+          </a>
+          <a
+            href="https://www.linkedin.com/in/pedro-henrique-contardi-soler/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            LinkedIn
           </a>
         </div>
       </nav>
@@ -82,8 +87,8 @@ export function Landing(props: Props) {
       </section>
 
       <footer className="landing__footer">
-        <span>CodeGraph</span>
-        <span className="mono">multi-linguagem · React Flow · Groq</span>
+        <DeveloperCredit />
+        <span className="mono landing__footer-tech">multi-linguagem · dagre · Groq</span>
       </footer>
     </div>
   );
