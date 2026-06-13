@@ -1,7 +1,11 @@
 node_modules/
 dist/
-viewer/dist/
 output/
 *.log
 .env
+.env.local
 .DS_Store
+
+web/node_modules/
+web/.next/
+web/out/
