@@ -35,7 +35,7 @@ function Flow({
   const rf = useReactFlow();
 
   useEffect(() => {
-    const t = setTimeout(() => rf.fitView({ padding: 0.2, duration: 500 }), 60);
+    const t = setTimeout(() => rf.fitView({ padding: 0.18, duration: 450 }), 60);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layoutKey]);
@@ -47,8 +47,8 @@ function Flow({
     const w = (target.data as FlowNodeData).width;
     const h = (target.data as FlowNodeData).height;
     rf.setCenter(target.position.x + w / 2, target.position.y + h / 2, {
-      zoom: 1.2,
-      duration: 500,
+      zoom: 1.15,
+      duration: 450,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedId]);
@@ -61,7 +61,7 @@ function Flow({
       onNodeClick={onNodeClick}
       onPaneClick={onPaneClick}
       fitView
-      fitViewOptions={{ padding: 0.2 }}
+      fitViewOptions={{ padding: 0.18 }}
       minZoom={0.05}
       maxZoom={2.5}
       proOptions={{ hideAttribution: true }}
@@ -69,28 +69,27 @@ function Flow({
     >
       <Background
         variant={BackgroundVariant.Dots}
-        gap={26}
+        gap={24}
         size={1}
-        color="rgba(148,163,184,0.12)"
+        color="rgba(255,255,255,0.05)"
       />
       <MiniMap
         pannable
         zoomable
-        nodeColor={(n) => (n.data as FlowNodeData)?.color ?? "#7dd3fc"}
+        nodeColor={(n) => (n.data as FlowNodeData)?.color ?? "#7d93a8"}
         nodeStrokeWidth={0}
-        maskColor="rgba(2,6,23,0.7)"
+        maskColor="rgba(20,20,20,0.72)"
         style={{
-          background: "rgba(15,23,42,0.85)",
-          border: "1px solid rgba(148,163,184,0.2)",
-          borderRadius: 12,
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 6,
         }}
       />
       <Controls
         showInteractive={false}
         style={{
-          background: "rgba(15,23,42,0.85)",
-          border: "1px solid rgba(148,163,184,0.2)",
-          borderRadius: 10,
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 6,
+          overflow: "hidden",
         }}
       />
     </ReactFlow>
