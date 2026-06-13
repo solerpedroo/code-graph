@@ -12,6 +12,7 @@ import { ArchGraph } from "./ArchGraph";
 import { InsightsPanel } from "./InsightsPanel";
 import { LogoMark } from "./Logo";
 import { NodePanel } from "./NodePanel";
+import { DeveloperCredit } from "./DeveloperCredit";
 
 export function GraphExplorer({
   result,
@@ -100,6 +101,7 @@ export function GraphExplorer({
           <Stat v={result.meta.cycleCount} l="ciclos" warn={result.meta.cycleCount > 0} />
           <Stat v={allLanguages.length} l="langs" />
         </div>
+        <DeveloperCredit compact />
       </header>
 
       <aside className="rail">
