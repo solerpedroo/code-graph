@@ -5,9 +5,12 @@ import { InsightPanel } from "./components/InsightPanel";
 import { NodeDetails } from "./components/NodeDetails";
 import { loadGraphData } from "./data";
 import { computeLayout, type Direction } from "./layout";
+import { LANGUAGE_LABELS } from "./theme";
 import type { Category, Insight, Language } from "./types";
 
 const { data, isDemo } = loadGraphData();
+
+type Tab = "insights" | "details";
 
 export default function App() {
   const allLanguages = useMemo(
@@ -45,6 +48,7 @@ export default function App() {
   const [onlyWarnings, setOnlyWarnings] = useState(false);
   const [direction, setDirection] = useState<Direction>("TB");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [tab, setTab] = useState<Tab>("insights");
 
   const filteredNodes = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -88,6 +92,15 @@ export default function App() {
     ? data.nodes.find((n) => n.id === selectedId) ?? null
     : null;
 
+  const selectNode = (id: string) => {
+    setSelectedId(id);
+    setTab("details");
+  };
+  const clearSelection = () => {
+    setSelectedId(null);
+    setTab("insights");
+  };
+
   const toggleSet = <T,>(set: Set<T>, value: T): Set<T> => {
     const next = new Set(set);
     if (next.has(value)) next.delete(value);
@@ -97,92 +110,143 @@ export default function App() {
 
   return (
     <div className="cg-app">
-      <header className="cg-topbar">
-        <div className="cg-brand">
-          <span className="cg-brand__logo">CG</span>
-          <div>
-            <div className="cg-brand__name">CodeGraph</div>
-            <div className="cg-brand__sub">{data.meta.projectName}</div>
-          </div>
+      {/* Title bar */}
+      <header className="cg-titlebar">
+        <div className="cg-titlebar__brand">
+          <span className="cg-logo">CG</span>
+          <span className="cg-titlebar__name">CodeGraph</span>
         </div>
-        <div className="cg-topbar__stats">
-          <Metric value={data.meta.fileCount} label="arquivos" />
-          <Metric value={data.meta.edgeCount} label="dependencias" />
-          <Metric
-            value={data.meta.cycleCount}
-            label="ciclos"
-            warn={data.meta.cycleCount > 0}
-          />
-          <Metric value={allLanguages.length} label="linguagens" />
-        </div>
+        <span className="cg-titlebar__sep">/</span>
+        <span className="cg-titlebar__project">{data.meta.projectName}</span>
+        <span className="cg-titlebar__spacer" />
         {isDemo && <span className="cg-demo-tag">dados de exemplo</span>}
+        <span className="cg-titlebar__src">{data.meta.inputSource}</span>
       </header>
 
-      <aside className="cg-sidebar">
-        <Filters
-          search={search}
-          setSearch={setSearch}
-          languages={allLanguages}
-          activeLanguages={activeLanguages}
-          toggleLanguage={(l) => setActiveLanguages((s) => toggleSet(s, l))}
-          categories={categoryCounts}
-          activeCategories={activeCategories}
-          toggleCategory={(c) => setActiveCategories((s) => toggleSet(s, c))}
-          onlyWarnings={onlyWarnings}
-          setOnlyWarnings={setOnlyWarnings}
-          direction={direction}
-          setDirection={setDirection}
-          visibleCount={filteredNodes.length}
-          totalCount={data.nodes.length}
-        />
-      </aside>
-
-      <main className="cg-canvas">
-        <GraphView
-          nodes={flowNodes}
-          edges={flowEdges}
-          onNodeClick={(_, node) => setSelectedId(node.id)}
-          onPaneClick={() => setSelectedId(null)}
-          layoutKey={layoutKey}
-          selectedId={selectedId}
-        />
-      </main>
-
-      <aside className="cg-panel">
-        {selectedNode ? (
-          <NodeDetails
-            node={selectedNode}
-            edges={data.edges}
-            highlight={highlightByNode.get(selectedNode.id)}
-            onSelectNode={(id) => setSelectedId(id)}
-            onClose={() => setSelectedId(null)}
+      {/* Left pane: filters */}
+      <section className="cg-pane cg-pane--side">
+        <div className="cg-pane__header">
+          <span className="cg-pane__title">Filtros</span>
+        </div>
+        <div className="cg-pane__body">
+          <Filters
+            search={search}
+            setSearch={setSearch}
+            languages={allLanguages}
+            activeLanguages={activeLanguages}
+            toggleLanguage={(l) => setActiveLanguages((s) => toggleSet(s, l))}
+            categories={categoryCounts}
+            activeCategories={activeCategories}
+            toggleCategory={(c) => setActiveCategories((s) => toggleSet(s, c))}
+            onlyWarnings={onlyWarnings}
+            setOnlyWarnings={setOnlyWarnings}
           />
-        ) : (
-          <InsightPanel
-            insights={data.insights}
-            onSelectNode={(id) => setSelectedId(id)}
-          />
-        )}
-      </aside>
-    </div>
-  );
-}
+        </div>
+      </section>
 
-function Metric({
-  value,
-  label,
-  warn,
-}: {
-  value: number;
-  label: string;
-  warn?: boolean;
-}) {
-  return (
-    <div className="cg-metric">
-      <span className={`cg-metric__value ${warn ? "cg-metric__value--warn" : ""}`}>
-        {value}
-      </span>
-      <span className="cg-metric__label">{label}</span>
+      {/* Center pane: graph */}
+      <section className="cg-pane cg-pane--canvas">
+        <div className="cg-pane__header">
+          <span className="cg-pane__title">Grafo de dependencias</span>
+          <span className="cg-pane__spacer" />
+          <div className="cg-segment">
+            <button
+              className={`cg-segment__btn ${
+                direction === "TB" ? "cg-segment__btn--on" : ""
+              }`}
+              onClick={() => setDirection("TB")}
+            >
+              Vertical
+            </button>
+            <button
+              className={`cg-segment__btn ${
+                direction === "LR" ? "cg-segment__btn--on" : ""
+              }`}
+              onClick={() => setDirection("LR")}
+            >
+              Horizontal
+            </button>
+          </div>
+        </div>
+        <div className="cg-canvas-body">
+          <GraphView
+            nodes={flowNodes}
+            edges={flowEdges}
+            onNodeClick={(_, node) => selectNode(node.id)}
+            onPaneClick={clearSelection}
+            layoutKey={layoutKey}
+            selectedId={selectedId}
+          />
+        </div>
+      </section>
+
+      {/* Right pane: insights / details */}
+      <section className="cg-pane cg-pane--panel">
+        <div className="cg-pane__header">
+          <div className="cg-tabs">
+            <button
+              className={`cg-tab ${tab === "insights" ? "cg-tab--active" : ""}`}
+              onClick={() => setTab("insights")}
+            >
+              Insights
+            </button>
+            <button
+              className={`cg-tab ${tab === "details" ? "cg-tab--active" : ""}`}
+              onClick={() => setTab("details")}
+            >
+              Detalhes
+            </button>
+          </div>
+        </div>
+        <div className="cg-pane__body">
+          {tab === "insights" ? (
+            <InsightPanel insights={data.insights} onSelectNode={selectNode} />
+          ) : selectedNode ? (
+            <NodeDetails
+              node={selectedNode}
+              edges={data.edges}
+              highlight={highlightByNode.get(selectedNode.id)}
+              onSelectNode={selectNode}
+              onClose={clearSelection}
+            />
+          ) : (
+            <div className="cg-empty">
+              Selecione um no no grafo para ver os detalhes do arquivo,
+              metricas e dependencias.
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Status bar */}
+      <footer className="cg-statusbar">
+        <span className="cg-status-item">
+          <b>{filteredNodes.length}</b>
+          <span className="cg-status-faint">/ {data.meta.fileCount} arquivos</span>
+        </span>
+        <span className="cg-status-item">
+          <b>{data.meta.edgeCount}</b> dependencias
+        </span>
+        <span
+          className={`cg-status-item ${
+            data.meta.cycleCount > 0 ? "cg-status-item--warn" : ""
+          }`}
+        >
+          <span
+            className={`cg-status-dot ${
+              data.meta.cycleCount > 0 ? "cg-status-dot--warn" : "cg-status-dot--ok"
+            }`}
+          />
+          <b>{data.meta.cycleCount}</b> ciclos
+        </span>
+        <span className="cg-status-item cg-status-faint">
+          {allLanguages.map((l) => LANGUAGE_LABELS[l]).join(", ")}
+        </span>
+        <span className="cg-statusbar__spacer" />
+        <span className="cg-status-item cg-status-faint">
+          {data.insights.source === "ai" ? "insights: IA" : "insights: heuristica"}
+        </span>
+      </footer>
     </div>
   );
 }
