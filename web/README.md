@@ -4,7 +4,7 @@ App principal do projeto. Visualizador interativo de arquitetura de código, com
 um repositório do GitHub (cole a URL) ou uma pasta local (direto pelo navegador,
 sem upload) e explore o grafo de dependências.
 
-Para a CLI de exportação JSON (automação), veja o [README na raiz](../README.md).
+Para a CLI de exportação JSON (automação), veja o [README na raiz](../README.md) · [English](../README.en.md).
 
 ## Stack
 
