@@ -1,9 +1,4 @@
-import type { Direction } from "../layout";
-import {
-  CATEGORY_COLORS,
-  CATEGORY_LABELS,
-  LANGUAGE_LABELS,
-} from "../theme";
+import { CATEGORY_COLORS, CATEGORY_LABELS, LANGUAGE_LABELS } from "../theme";
 import type { Category, Language } from "../types";
 
 interface Props {
@@ -20,18 +15,12 @@ interface Props {
 
   onlyWarnings: boolean;
   setOnlyWarnings: (v: boolean) => void;
-
-  direction: Direction;
-  setDirection: (d: Direction) => void;
-
-  visibleCount: number;
-  totalCount: number;
 }
 
 export function Filters(props: Props) {
   return (
     <div className="cg-filters">
-      <div className="cg-field">
+      <div className="cg-search-wrap">
         <input
           className="cg-search"
           placeholder="Buscar arquivo..."
@@ -40,38 +29,18 @@ export function Filters(props: Props) {
         />
       </div>
 
-      <div className="cg-section">
-        <div className="cg-section__title">Layout</div>
-        <div className="cg-toggle-group">
-          <button
-            className={`cg-chip ${props.direction === "TB" ? "cg-chip--on" : ""}`}
-            onClick={() => props.setDirection("TB")}
-          >
-            Vertical
-          </button>
-          <button
-            className={`cg-chip ${props.direction === "LR" ? "cg-chip--on" : ""}`}
-            onClick={() => props.setDirection("LR")}
-          >
-            Horizontal
-          </button>
-        </div>
-      </div>
-
-      <div className="cg-section">
-        <label className="cg-switch">
-          <input
-            type="checkbox"
-            checked={props.onlyWarnings}
-            onChange={(e) => props.setOnlyWarnings(e.target.checked)}
-          />
-          <span>Mostrar so warnings / ciclos</span>
-        </label>
-      </div>
+      <label className="cg-switch">
+        <input
+          type="checkbox"
+          checked={props.onlyWarnings}
+          onChange={(e) => props.setOnlyWarnings(e.target.checked)}
+        />
+        <span>Mostrar apenas warnings / ciclos</span>
+      </label>
 
       {props.languages.length > 1 && (
-        <div className="cg-section">
-          <div className="cg-section__title">Linguagens</div>
+        <div className="cg-group">
+          <div className="cg-group__title">Linguagens</div>
           <div className="cg-chips">
             {props.languages.map((l) => (
               <button
@@ -88,8 +57,8 @@ export function Filters(props: Props) {
         </div>
       )}
 
-      <div className="cg-section">
-        <div className="cg-section__title">Categorias</div>
+      <div className="cg-group">
+        <div className="cg-group__title">Categorias</div>
         <div className="cg-legend">
           {props.categories.map(({ category, count }) => (
             <button
@@ -110,10 +79,6 @@ export function Filters(props: Props) {
             </button>
           ))}
         </div>
-      </div>
-
-      <div className="cg-filters__footer">
-        Exibindo <b>{props.visibleCount}</b> de {props.totalCount} arquivos
       </div>
     </div>
   );
