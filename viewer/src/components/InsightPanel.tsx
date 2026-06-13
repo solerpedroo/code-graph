@@ -14,18 +14,17 @@ const TYPE_LABEL: Record<string, string> = {
 export function InsightPanel({ insights, onSelectNode }: Props) {
   return (
     <div className="cg-insights">
-      <div className="cg-insights__header">
-        <h2>Insights de arquitetura</h2>
+      <div className="cg-source-row">
         <span
           className={`cg-badge ${
             insights.source === "ai" ? "cg-badge--ai" : "cg-badge--heur"
           }`}
         >
-          {insights.source === "ai" ? "IA" : "Heuristica"}
+          {insights.source === "ai" ? "Gerado por IA" : "Heuristica"}
         </span>
       </div>
 
-      {insights.summary && <p className="cg-insights__summary">{insights.summary}</p>}
+      {insights.summary && <p className="cg-summary">{insights.summary}</p>}
 
       {insights.highlights.length > 0 && (
         <div className="cg-block">
