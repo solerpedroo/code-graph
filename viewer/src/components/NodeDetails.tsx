@@ -1,8 +1,4 @@
-import {
-  CATEGORY_COLORS,
-  CATEGORY_LABELS,
-  LANGUAGE_LABELS,
-} from "../theme";
+import { CATEGORY_COLORS, CATEGORY_LABELS, LANGUAGE_LABELS } from "../theme";
 import type { GraphEdge, GraphNode, Insight } from "../types";
 
 interface Props {
@@ -29,15 +25,16 @@ export function NodeDetails({
 
   return (
     <div className="cg-details">
-      <div className="cg-details__header">
+      <div className="cg-details__head">
         <div className="cg-details__titles">
-          <span
-            className="cg-details__cat"
-            style={{ background: CATEGORY_COLORS[node.category] }}
-          >
+          <span className="cg-details__cat">
+            <span
+              className="cg-details__cat-dot"
+              style={{ background: CATEGORY_COLORS[node.category] }}
+            />
             {CATEGORY_LABELS[node.category]}
           </span>
-          <h2>{node.label}</h2>
+          <div className="cg-details__name">{node.label}</div>
           <div className="cg-details__path">{node.id}</div>
         </div>
         <button className="cg-close" onClick={onClose} aria-label="Fechar">
@@ -54,10 +51,14 @@ export function NodeDetails({
       <div className="cg-stats">
         <Stat label="Linguagem" value={LANGUAGE_LABELS[node.language]} />
         <Stat label="Linhas" value={String(node.loc)} />
+        <Stat label="Risco" value={String(node.risk)} />
         <Stat label="Fan-in" value={String(node.fanIn)} />
         <Stat label="Fan-out" value={String(node.fanOut)} />
-        <Stat label="Risco" value={String(node.risk)} />
-        <Stat label="Em ciclo" value={node.inCycle ? "Sim" : "Nao"} warn={node.inCycle} />
+        <Stat
+          label="Em ciclo"
+          value={node.inCycle ? "Sim" : "Nao"}
+          warn={node.inCycle}
+        />
       </div>
 
       <RefList
