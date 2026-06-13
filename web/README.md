@@ -1,8 +1,10 @@
 # CodeGraph — Web
 
-Visualizador interativo de arquitetura de código, com insights de IA. Analise
+App principal do projeto. Visualizador interativo de arquitetura de código, com insights de IA. Analise
 um repositório do GitHub (cole a URL) ou uma pasta local (direto pelo navegador,
 sem upload) e explore o grafo de dependências.
+
+Para a CLI de exportação JSON (automação), veja o [README na raiz](../README.md).
 
 ## Stack
 
