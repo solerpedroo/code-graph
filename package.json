@@ -1,19 +1,17 @@
 {
   "name": "codegraph",
   "version": "0.1.0",
-  "description": "Visualizador de arquitetura de codigo com IA - gera um grafo interativo das dependencias de um repositorio (multi-linguagem) e aponta problemas de arquitetura usando IA.",
+  "description": "Visualizador de arquitetura de codigo com IA - grafo interativo de dependencias e insights de arquitetura.",
   "type": "module",
   "bin": {
     "codegraph": "dist/cli.js"
   },
   "files": [
-    "dist",
-    "viewer/dist"
+    "dist"
   ],
   "scripts": {
-    "build": "npm run build:viewer && npm run build:cli",
+    "build": "npm run build:cli",
     "build:cli": "tsc -p tsconfig.json",
-    "build:viewer": "cd viewer && vite build",
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js"
   },
@@ -23,8 +21,7 @@
     "architecture",
     "dependencies",
     "visualization",
-    "ai",
-    "react-flow"
+    "ai"
   ],
   "license": "MIT",
   "dependencies": {
@@ -33,7 +30,6 @@
     "commander": "^12.1.0",
     "dependency-cruiser": "^16.4.2",
     "fast-glob": "^3.3.2",
-    "open": "^10.1.0",
     "ora": "^8.1.1",
     "simple-git": "^3.27.0"
   },
