@@ -1,7 +1,7 @@
 "use client";
 
 import { LANGUAGE_LABELS } from "@/lib/theme";
-import { LogoMark } from "./Logo";
+import { BrandWordmark, LogoMark } from "./Logo";
 import { RepoInput } from "./RepoInput";
 import { DeveloperCredit } from "./DeveloperCredit";
 
@@ -37,7 +37,7 @@ export function Landing(props: Props) {
       <nav className="nav">
         <div className="brand">
           <LogoMark />
-          CodeGraph
+          <BrandWordmark />
         </div>
         <div className="nav__links">
           <a
